@@ -1,0 +1,46 @@
+﻿<h2>Управление личными финансами</h2>
+
+<div>
+    <p>Общий доход: @Model.TotalIncome.ToString("c")</p>
+    <p>Общие расходы: @Model.TotalExpense.ToString("c")</p>
+    <p>Баланс: @Model.Balance.ToString("c")</p>
+</div>
+
+<!-- Форма для создания новой транзакции -->
+<form action="@Url.Action("Create", "Transactions")" method="get">
+    <input type="hidden" name="userId" value="@Model.UserId">
+    <button type="submit" class="btn btn-primary">Создать транзакцию</button>
+</form>
+
+<!-- Таблица с транзакциями -->
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Название</th>
+            <th scope="col">Сумма</th>
+            <th scope="col">Описание</th>
+            <th scope="col">Категория</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in Model.GetAllTransactions)
+        {
+            <tr>
+                <td>@transaction.Id</td>
+                <td>@transaction.Name</td>
+                <td>@transaction.Sum.ToString("c")</td>
+                <td>@transaction.Desc</td>
+
+                @if (transaction.CategoryID == 1)
+                {
+                    <td>Доходы</td>
+                }
+                else
+                {
+                    <td>Расходы</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
